@@ -584,43 +584,43 @@ def scrap_profile():
     return
 
 
-# def get_comments():
-#     comments = []
-#     try:
-#         data = driver.find_element_by_xpath(selectors.get("comment_section"))
-#         reply_links = driver.find_elements_by_xpath(
-#             selectors.get("more_comment_replies")
-#         )
-#         for link in reply_links:
-#             try:
-#                 driver.execute_script("arguments[0].click();", link)
-#             except Exception:
-#                 pass
-#         see_more_links = driver.find_elements_by_xpath(
-#             selectors.get("comment_see_more_link")
-#         )
-#         for link in see_more_links:
-#             try:
-#                 driver.execute_script("arguments[0].click();", link)
-#             except Exception:
-#                 pass
-#         data = data.find_elements_by_xpath(selectors.get("comment"))
-#         for d in data:
-#             try:
-#                 author = d.find_element_by_xpath(
-#                     selectors.get("comment_author")).text
-#                 text = d.find_element_by_xpath(
-#                     selectors.get("comment_text")).text
-#                 replies = utils.get_replies(d, selectors)
-#                 comments.append([author, text, replies])
-#             except Exception:
-#                 pass
-#     except Exception:
-#         pass
-#     return comments
+def get_comments():
+    comments = []
+    try:
+        data = driver.find_element_by_xpath(selectors.get("comment_section"))
+        reply_links = driver.find_elements_by_xpath(
+            selectors.get("more_comment_replies")
+        )
+        for link in reply_links:
+            try:
+                driver.execute_script("arguments[0].click();", link)
+            except Exception:
+                pass
+        see_more_links = driver.find_elements_by_xpath(
+            selectors.get("comment_see_more_link")
+        )
+        for link in see_more_links:
+            try:
+                driver.execute_script("arguments[0].click();", link)
+            except Exception:
+                pass
+        data = data.find_elements_by_xpath(selectors.get("comment"))
+        for d in data:
+            try:
+                author = d.find_element_by_xpath(
+                    selectors.get("comment_author")).text
+                text = d.find_element_by_xpath(
+                    selectors.get("comment_text")).text
+                replies = utils.get_replies(d, selectors)
+                comments.append([author, text, replies])
+            except Exception:
+                pass
+    except Exception:
+        pass
+    return comments
 
 
-# def get_group_post_as_line(post_id, photos_dir):
+ def get_group_post_as_line(post_id, photos_dir):
     try:
         data = driver.find_element_by_xpath(selectors.get("single_post"))
         time = utils.get_time(data)
