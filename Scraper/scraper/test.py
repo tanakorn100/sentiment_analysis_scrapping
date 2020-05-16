@@ -1,7 +1,7 @@
 import json
 import os
 import sys
-import urllib.request
+import urllib
 import yaml
 import utils
 import argparse
@@ -50,45 +50,45 @@ def get_facebook_images_url(img_links):
 # -------------------------------------------------------------
 
 # takes a url and downloads image from that url
-def image_downloader(img_links, folder_name):
-    """
-    Download images from a list of image urls.
-    :param img_links:
-    :param folder_name:
-    :return: list of image names downloaded
-    """
-    img_names = []
+# def image_downloader(img_links, folder_name):
+#     """
+#     Download images from a list of image urls.
+#     :param img_links:
+#     :param folder_name:
+#     :return: list of image names downloaded
+#     """
+#     img_names = []
 
-    try:
-        parent = os.getcwd()
-        try:
-            folder = os.path.join(os.getcwd(), folder_name)
-            utils.create_folder(folder)
-            os.chdir(folder)
-        except Exception:
-            print("Error in changing directory.")
+#     try:
+#         parent = os.getcwd()
+#         try:
+#             folder = os.path.join(os.getcwd(), folder_name)
+#             utils.create_folder(folder)
+#             os.chdir(folder)
+#         except Exception:
+#             print("Error in changing directory.")
 
-        for link in img_links:
-            img_name = "None"
+#         for link in img_links:
+#             img_name = "None"
 
-            if link != "None":
-                img_name = (link.split(".jpg")[0]).split("/")[-1] + ".jpg"
+#             if link != "None":
+#                 img_name = (link.split(".jpg")[0]).split("/")[-1] + ".jpg"
 
-                # this is the image id when there's no profile pic
-                if img_name == selectors.get("default_image"):
-                    img_name = "None"
-                else:
-                    try:
-                        urllib.request.urlretrieve(link, img_name)
-                    except Exception:
-                        img_name = "None"
+#                 # this is the image id when there's no profile pic
+#                 if img_name == selectors.get("default_image"):
+#                     img_name = "None"
+#                 else:
+#                     try:
+#                         urllib.request.urlretrieve(link, img_name)
+#                     except Exception:
+#                         img_name = "None"
 
-            img_names.append(img_name)
+#             img_names.append(img_name)
 
-        os.chdir(parent)
-    except Exception:
-        print("Exception (image_downloader):", sys.exc_info()[0])
-    return img_names
+#         os.chdir(parent)
+#     except Exception:
+#         print("Exception (image_downloader):", sys.exc_info()[0])
+#     return img_names
 
 
 # -------------------------------------------------------------
@@ -423,33 +423,33 @@ def save_to_file(name, elements, status, current_section):
         #     return
 
         """Write results to file"""
-        if status == 0:
-            for i, _ in enumerate(results):
-                # friend's profile link
-                f.writelines(results[i])
-                f.write(",")
+        # if status == 0:
+        #     for i, _ in enumerate(results):
+        #         # friend's profile link
+        #         f.writelines(results[i])
+        #         f.write(",")
 
-                # friend's name
-                f.writelines(people_names[i])
-                f.write(",")
+        #         # friend's name
+        #         f.writelines(people_names[i])
+        #         f.write(",")
 
-                # friend's downloaded picture id
-                f.writelines(img_names[i])
-                f.write("\n")
+        #         # friend's downloaded picture id
+        #         f.writelines(img_names[i])
+        #         f.write("\n")
 
-        elif status == 1:
-            for i, _ in enumerate(results):
-                # image's link
-                f.writelines(results[i])
-                f.write(",")
+        # elif status == 1:
+        #     for i, _ in enumerate(results):
+        #         # image's link
+        #         f.writelines(results[i])
+        #         f.write(",")
 
-                # downloaded picture id
-                f.writelines(img_names[i])
-                f.write("\n")
+        #         # downloaded picture id
+        #         f.writelines(img_names[i])
+        #         f.write("\n")
 
-        elif status == 2:
-            for x in results:
-                f.writelines(x + "\n")
+        # elif status == 2:
+        #     for x in results:
+        #         f.writelines(x + "\n")
 
         f.close()
 
@@ -584,79 +584,79 @@ def scrap_profile():
     return
 
 
-def get_comments():
-    comments = []
-    try:
-        data = driver.find_element_by_xpath(selectors.get("comment_section"))
-        reply_links = driver.find_elements_by_xpath(
-            selectors.get("more_comment_replies")
-        )
-        for link in reply_links:
-            try:
-                driver.execute_script("arguments[0].click();", link)
-            except Exception:
-                pass
-        see_more_links = driver.find_elements_by_xpath(
-            selectors.get("comment_see_more_link")
-        )
-        for link in see_more_links:
-            try:
-                driver.execute_script("arguments[0].click();", link)
-            except Exception:
-                pass
-        data = data.find_elements_by_xpath(selectors.get("comment"))
-        for d in data:
-            try:
-                author = d.find_element_by_xpath(
-                    selectors.get("comment_author")).text
-                text = d.find_element_by_xpath(
-                    selectors.get("comment_text")).text
-                replies = utils.get_replies(d, selectors)
-                comments.append([author, text, replies])
-            except Exception:
-                pass
-    except Exception:
-        pass
-    return comments
+# def get_comments():
+#     comments = []
+#     try:
+#         data = driver.find_element_by_xpath(selectors.get("comment_section"))
+#         reply_links = driver.find_elements_by_xpath(
+#             selectors.get("more_comment_replies")
+#         )
+#         for link in reply_links:
+#             try:
+#                 driver.execute_script("arguments[0].click();", link)
+#             except Exception:
+#                 pass
+#         see_more_links = driver.find_elements_by_xpath(
+#             selectors.get("comment_see_more_link")
+#         )
+#         for link in see_more_links:
+#             try:
+#                 driver.execute_script("arguments[0].click();", link)
+#             except Exception:
+#                 pass
+#         data = data.find_elements_by_xpath(selectors.get("comment"))
+#         for d in data:
+#             try:
+#                 author = d.find_element_by_xpath(
+#                     selectors.get("comment_author")).text
+#                 text = d.find_element_by_xpath(
+#                     selectors.get("comment_text")).text
+#                 replies = utils.get_replies(d, selectors)
+#                 comments.append([author, text, replies])
+#             except Exception:
+#                 pass
+#     except Exception:
+#         pass
+#     return comments
 
 
- def get_group_post_as_line(post_id, photos_dir):
-    try:
-        data = driver.find_element_by_xpath(selectors.get("single_post"))
-        time = utils.get_time(data)
-        title = utils.get_title(data, selectors).text
-        # link, status, title, type = get_status_and_title(title,data)
-        link = utils.get_div_links(data, "a", selectors)
-        if link != "":
-            link = link.get_attribute("href")
-        post_type = ""
-        status = '"' + \
-            utils.get_status(data, selectors).replace("\r\n", " ") + '"'
-        photos = utils.get_post_photos_links(
-            data, selectors, photos_small_size)
-        comments = get_comments()
-        photos = image_downloader(photos, photos_dir)
-        line = (
-            str(time)
-            + "||"
-            + str(post_type)
-            + "||"
-            + str(title)
-            + "||"
-            + str(status)
-            + "||"
-            + str(link)
-            + "||"
-            + str(post_id)
-            + "||"
-            + str(photos)
-            + "||"
-            + str(comments)
-            + "\n"
-        )
-        return line
-    except Exception:
-        return ""
+# def get_group_post_as_line(post_id, photos_dir):
+#     try:
+#         data = driver.find_element_by_xpath(selectors.get("single_post"))
+#         time = utils.get_time(data)
+#         title = utils.get_title(data, selectors).text
+#         # link, status, title, type = get_status_and_title(title,data)
+#         link = utils.get_div_links(data, "a", selectors)
+#         if link != "":
+#             link = link.get_attribute("href")
+#         post_type = ""
+#         status = '"' + \
+#             utils.get_status(data, selectors).replace("\r\n", " ") + '"'
+#         photos = utils.get_post_photos_links(
+#             data, selectors, photos_small_size)
+#         comments = get_comments()
+#         photos = image_downloader(photos, photos_dir)
+#         line = (
+#             str(time)
+#             + "||"
+#             + str(post_type)
+#             + "||"
+#             + str(title)
+#             + "||"
+#             + str(status)
+#             + "||"
+#             + str(link)
+#             + "||"
+#             + str(post_id)
+#             + "||"
+#             + str(photos)
+#             + "||"
+#             + str(comments)
+#             + "\n"
+#         )
+#         return line
+#     except Exception:
+#         return ""
 
 
 def create_folders():
@@ -892,14 +892,14 @@ if __name__ == "__main__":
     # ---------------------------------------------------------
 
     # whether to download photos or not
-    download_uploaded_photos = utils.to_bool(args["uploaded_photos"])
-    download_friends_photos = utils.to_bool(args["friends_photos"])
+    # download_uploaded_photos = utils.to_bool(args["uploaded_photos"])
+    # download_friends_photos = utils.to_bool(args["friends_photos"])
 
     # whether to download the full image or its thumbnail (small size)
     # if small size is True then it will be very quick else if its false then it will open each photo to download it
     # and it will take much more time
-    friends_small_size = utils.to_bool(args["friends_small_size"])
-    photos_small_size = utils.to_bool(args["photos_small_size"])
+    # friends_small_size = utils.to_bool(args["friends_small_size"])
+    # photos_small_size = utils.to_bool(args["photos_small_size"])
 
     total_scrolls = int(args["total_scrolls"])
     scroll_time = int(args["scroll_time"])
